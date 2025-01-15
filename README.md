@@ -37,6 +37,19 @@ Casi toda la documentación la he sacado de la página oficial de Gentoo, https:
 
 14 construir chroot
 
+     *cp --dereference /etc/resolv.conf /mnt/gentoo/etc/
+     mount --types proc /proc /mnt/gentoo/proc
+     mount --rbind /sys /mnt/gentoo/sys
+     mount --make-rslave /mnt/gentoo/sys
+     mount --rbind /dev /mnt/gentoo/dev
+     mount --make-rslave /mnt/gentoo/dev
+     mount --bind /run /mnt/gentoo/run
+     mount --make-slave /mnt/gentoo/run 
+
+     chroot /mnt/gentoo /bin/bash 
+     source /etc/profile 
+     export PS1="(chroot) ${PS1}"
+
 15 mount /dev/sda3 /boot
 
 16 emerge-websync
@@ -53,7 +66,10 @@ Casi toda la documentación la he sacado de la página oficial de Gentoo, https:
 
 20 nano -w /etc/locale.gen  (añadir es.utf8 o el que corresponda)
    
-   locale-gen
+     locale-gen
    eselect locale list
    eselect locale set XXX (elegir el correspondiente tras consultar con eselect locale list)
-   env-update && source /etc/profiel && export PS1="(chroot) 
+   env-update && source /etc/profiel && export PS1="(chroot) ${PS1}"
+
+21 emerge --ask sys-kernel/gentoo-sources
+     
