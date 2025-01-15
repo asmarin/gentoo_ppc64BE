@@ -66,10 +66,49 @@ Casi toda la documentación la he sacado de la página oficial de Gentoo, https:
 
 20 nano -w /etc/locale.gen  (añadir es.utf8 o el que corresponda)
    
-     locale-gen
+   locale-gen
    eselect locale list
    eselect locale set XXX (elegir el correspondiente tras consultar con eselect locale list)
    env-update && source /etc/profiel && export PS1="(chroot) ${PS1}"
 
 21 emerge --ask sys-kernel/gentoo-sources
-     
+  
+   eselect kernel list
+   eselect kernet set 1
+   emerge --ask sus-apps/pci-utils
+   cd /usr/src/linux
+   make g5_defconfig
+   make menuconfig (para personalizar el kernel)
+   make
+   make modules_install
+   cp vmlinux /boot/kernel-x.xx.x-gentoo
+   nano /etc/portage/make.conf
+      *ACCEPT_LICENSE="*"
+   emerge --ask sys-kernel/linux-firmware
+   ln -sf /usr/src/linux-x.xx.x /usr/src/linux
+   
+22 nano -w /etc/fstab (modificar con el esquema de particionado del archivo que contiene el lsblk)
+   
+   emerge --ask --noreplace net-misc/netifrc
+   ifconfig (para ver como nombra la tarjeta de red, normalmente es eth0 pero puede que el kernel te saque un churro aleatorio de nombre)
+   nano -w /etc/conf.d/net (poner los datos de ip fija en función del esquema de red)
+
+    *config_eth0="192.168.0.2 netmask 255.255.255.0 brd 192.168.0.255"
+     routes_eth0="default via 192.168.0.1"
+   cd /etc/init.d 
+   ln -s net.lo net.eth0 
+   rc-update add net.eth0 default
+
+23 emerge --ask app-admin/sysklogd
+
+   rc_update add sysklogd default
+   rc_update add sshd default
+
+24 configurar grub2 https://wiki.gentoo.org/wiki/GRUB_on_Open_Firmware_(PowerPC)
+
+   *este aparte del particionado es uno de los puntos chungos, me costó varios intentos 
+
+25 useradd -m -G users,wheel,audio -s /bin/bash larry (larry o el nombre que quieras ponerle) 
+
+   passwd larry
+   
