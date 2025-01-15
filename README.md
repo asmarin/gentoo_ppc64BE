@@ -5,10 +5,15 @@ Añado los archivos de configuración, esquemas de particionado y demás informa
 Casi toda la documentación la he sacado de la página oficial de Gentoo, https://wiki.gentoo.org/wiki/Handbook:PPC64
 
 1 boot cd - press c
+
 2 loadkeys es
+
 3 net-setup
+
 4 /etc/resolv.conf
+
 5 particionar con mac-fdisk (ver archivo del lsblk)
+
 6 mkswap /dev/sda4 (swap)
 7 swapon /dev/sda4
 8 mkfs.ext4 /dev/sda5 (/ root)
