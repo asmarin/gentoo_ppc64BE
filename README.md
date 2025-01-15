@@ -29,6 +29,7 @@ Casi toda la documentación la he sacado de la página oficial de Gentoo, https:
 12 tar xvpf stage3-xxxx --xattrs-include='*.*' --numeric-owner
 
 13 nano -w /mnt/gentoo/etc/portage/make.conf
+
       *añadir al archivo
       cflags -mcpu=970
       VIDEO_CARDS="radeon" (en mi caso, sustituir por la que corresponda)
@@ -41,14 +42,17 @@ Casi toda la documentación la he sacado de la página oficial de Gentoo, https:
 16 emerge-websync
 
 17 eselect profile list
+
    eselect profile set XXXX (elegir el correspondiente tras consultar con eselect profile list)
 
 18 emerge --ask --verbose --update --deep --newuse @world
 
 19 echo "Europe/Madrid"  /etc/timezone
+   
    emerge --config sys-libs/timezone-data
 
 20 nano -w /etc/locale.gen  (añadir es.utf8 o el que corresponda)
+   
    locale-gen
    eselect locale list
    eselect locale set XXX (elegir el correspondiente tras consultar con eselect locale list)
